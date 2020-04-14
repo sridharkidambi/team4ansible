@@ -1,0 +1,10 @@
+- name: Test s3
+    hosts: local
+    connection: local
+
+    tasks:
+      - name: Create new bucket
+        aws_s3:
+          bucket: testmeteam4
+          mode: create
+          region: ap-south-1
