@@ -41,7 +41,13 @@
         delay: 10
         timeout: 120
       loop: "{{ ec2.instances }}"
-  # By specifying never on the tag of this block, 
+    - name: install httpd
+      yum:
+        name: httpd
+        state: installed
+      loop: "{{ ec2.instances }}"
+
+# By specifying never on the tag of this block, 
   # I let this block to run only when explicitely being called
 #   tags: ['never', 'ec2-create']
       
