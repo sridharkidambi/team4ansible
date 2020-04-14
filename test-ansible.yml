@@ -8,15 +8,40 @@
         bucket: testmeteam4
         mode: create
         region: ap-south-1
-    - name: create ec2 instance
-      action: 
-        module: ec2 
-        image: "ami-02a0ba3db0e4d42e3"
-        instance_type: "t2.micro"
-        state: present
-        region: "ap-south-1"
-        vpc_subnet_id: "subnet-0b4e618391f94d334"
-        group: "terraform-20200409053430941900000001"
+    - name: Launch ec2 instances
+      tags: create_ec2
+      ec2:
+        region: ap-south-1
         key_name: "team4-demo-key-pair"
-        instance_tags: 
-          name: "Ansible-created"
+        group: "terraform-20200409053430941900000001"
+        instance_type: t2.micro
+        image: "ami-02a0ba3db0e4d42e3"
+        wait: yes
+        wait_timeout: 500
+        count: 2
+        instance_tags:
+          name: appservers
+          os: ubuntu
+        monitoring: no
+        vpc_subnet_id: "subnet-0b4e618391f94d334"
+        assign_public_ip: yes
+      register: ec2
+      delegate_to: localhost        
+    - name : Add instance to host group
+      add_host:
+        hostname: "{{ item.public_ip }}"
+        groupname: launched
+      loop: "{{ ec2.instances }}"
+
+    - name: Wait for SSH to come up
+      local_action:
+        module: wait_for
+        host: "{{ item.public_ip }}"
+        port: 22
+        delay: 10
+        timeout: 120
+      loop: "{{ ec2.instances }}"
+  # By specifying never on the tag of this block, 
+  # I let this block to run only when explicitely being called
+#   tags: ['never', 'ec2-create']
+      
