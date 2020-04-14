@@ -16,7 +16,7 @@
         state: present
         region: "ap-south-1"
         vpc_subnet_id: "subnet-0b4e618391f94d334"
-        group: "sg-0d870542a674df816"
+        group: "terraform-20200409053430941900000001"
         key_name: "team4-demo-key-pair"
         instance_tags: 
           name: "Ansible-created"
