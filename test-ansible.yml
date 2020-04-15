@@ -1,8 +1,6 @@
 - name: Test s3
   hosts: local
   connection: local
-  vars_files:
-  - aws_keys.yml
 
   tasks:
     - name: Create new bucket
