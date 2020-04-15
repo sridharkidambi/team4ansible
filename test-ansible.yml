@@ -13,7 +13,7 @@
       ec2:
         region: ap-south-1
         key_name: "team4-demo-key-pair"
-        group: "terraform-20200409053430941900000001"
+        group: "terraform-20200415094959667000000001"
         instance_type: t2.micro
         image: "ami-02a0ba3db0e4d42e3"
         wait: yes
@@ -23,7 +23,7 @@
           name: appservers
           os: ubuntu
         monitoring: no
-        vpc_subnet_id: "subnet-0b4e618391f94d334"
+        vpc_subnet_id: "subnet-0228bc3788d476f94"
         assign_public_ip: yes
       register: ec2
       delegate_to: localhost        
